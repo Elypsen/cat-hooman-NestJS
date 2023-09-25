@@ -1,8 +1,17 @@
-import { Cat } from 'src/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { CCat } from '../cats/cats.entity';
 
-export interface IHooman {
-  id: number;
+@ObjectType()
+export class CHooman {
+  @Field(() => ID)
+  id: string;
+
+  @Field()
   firstname: string;
+
+  @Field()
   lastname: string;
-  cats: [Cat];
+
+  @Field(() => [CCat])
+  cats: CCat[];
 }

@@ -1,29 +1,30 @@
 import { Injectable } from '@nestjs/common';
-import { Hooman } from 'src/graphql';
+import { v4 as uuidv4 } from 'uuid';
+import { CHooman } from './hooman.entity';
 
 @Injectable()
 export class HoomansService {
-  private readonly hoomans: Hooman[] = [];
+  private readonly hoomans: CHooman[] = [];
 
-  findAll(): Promise<Hooman[]> {
+  findAll(): Promise<CHooman[]> {
     return Promise.resolve(this.hoomans);
   }
 
-  findOneById(id): Promise<Hooman> {
+  findOneById(id): Promise<CHooman> {
     const hooman = this.hoomans.find((hooman) => hooman.id === id);
     return Promise.resolve(hooman);
   }
 
-  create(input: any): Promise<Hooman> {
-    const newHooman: Hooman = {
-      id: this.hoomans.length + 1,
+  create(input: any): Promise<CHooman> {
+    const newHooman: CHooman = {
+      id: uuidv4(),
       ...input,
     };
     this.hoomans.push(newHooman);
     return Promise.resolve(newHooman);
   }
 
-  findByIdAndUpdate(id: number, input: any): Promise<Hooman> {
+  findByIdAndUpdate(id: string, input: any): Promise<CHooman> {
     const index = this.hoomans.findIndex((hooman) => hooman.id === id);
     if (index === -1) {
       throw new Error('Hooman not found');
@@ -33,7 +34,7 @@ export class HoomansService {
     return Promise.resolve(updatedHooman);
   }
 
-  findByIdAndDelete(id: number): Promise<void> {
+  findByIdAndDelete(id: string): Promise<void> {
     const index = this.hoomans.findIndex((hooman) => hooman.id === id);
     if (index === -1) {
       throw new Error('Hooman not found');

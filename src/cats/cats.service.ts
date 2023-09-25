@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { Cat } from 'src/graphql';
 import { HoomansService } from 'src/hooman/hooman.service';
-
+import { v4 as uuidv4 } from 'uuid';
+import { CCat } from './cats.entity';
 // interface HoomanWithCats extends Hooman {
 //   cats: Cat[];
 // }
 @Injectable()
 export class CatsService {
-  private readonly cats: Cat[] = [];
+  private readonly cats: CCat[] = [];
   private hoomanService: HoomansService;
 
-  async findAll(filter?: any): Promise<Cat[]> {
+  async findAll(filter?: any): Promise<CCat[]> {
     if (filter) {
       if (filter === 'hoomanId') {
         const hoomanId = filter;
@@ -19,5 +19,14 @@ export class CatsService {
       }
     }
     return Promise.resolve(this.cats);
+  }
+
+  create(input: any): Promise<CCat> {
+    const newHooman: CCat = {
+      id: uuidv4(),
+      ...input,
+    };
+    this.cats.push(newHooman);
+    return Promise.resolve(newHooman);
   }
 }

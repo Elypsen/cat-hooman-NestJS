@@ -1,0 +1,20 @@
+type Hooman {
+  id: Int!
+  firstname: String!
+  lastname: String!
+  cats: [Cat!]!
+}
+
+type Cat {
+  id: Int!
+  name: String!
+  age: Int!
+}
+
+type Query {
+  hooman(id: Int!): Hooman
+}
+
+type HoomanResolver {
+  cats(hooman: Hooman): [Cat]
+}
